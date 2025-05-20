@@ -1,9 +1,10 @@
 package com.gasigwatin.REST_6_Springboot_project_withDatabases;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "table_student")
+@Table(name = "TABLE_STUDENT")
 public class Student {
 
     @Id
@@ -24,16 +25,35 @@ public class Student {
     @Column(updatable = false)
     private String creationDate;
 
+    //Let's now create a relationship between this entity(Student) to the StudentProfile Entity
+
+    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
+    private StudentProfile studentProfile;
+
+    //Let's now create a relationship between this entity(Student) to the School
+
+    @ManyToOne
+    @JoinColumn(name = "school-id")
+    @JsonBackReference
+    private School school;
+
+//    Let's create an empty constructor (REQUIRED)
 
     public Student(){}
 
-    public Student(String firstname, String lastname, String email, int age, String creationDate) {
+//    Let's now create a Constructor for the class
+
+    public Student(String firstname, String lastname, String email, int age, String creationDate, StudentProfile studentProfile, School school) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.age = age;
         this.creationDate = creationDate;
+        this.studentProfile = studentProfile;
+        this.school = school;
     }
+
+//    Getter and Setter for Id
 
     public Integer getId() {
         return id;
@@ -43,6 +63,8 @@ public class Student {
         this.id = id;
     }
 
+//    Getter and Setter for Firstname
+
     public String getFirstname() {
         return firstname;
     }
@@ -50,6 +72,8 @@ public class Student {
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
+
+//    Getter and Setter for Lastname
 
     public String getLastname() {
         return lastname;
@@ -59,6 +83,8 @@ public class Student {
         this.lastname = lastname;
     }
 
+//    Getter and Setter for Email
+
     public String getEmail() {
         return email;
     }
@@ -66,6 +92,8 @@ public class Student {
     public void setEmail(String email) {
         this.email = email;
     }
+
+//    Getter and Setter for Age
 
     public int getAge() {
         return age;
@@ -75,11 +103,33 @@ public class Student {
         this.age = age;
     }
 
+//    Getter and Setter for CreationDate
+
     public String getCreationDate() {
         return creationDate;
     }
 
     public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
+    }
+
+//    Getter and Setter for StudentProfile
+
+    public StudentProfile getStudentProfile() {
+        return studentProfile;
+    }
+
+    public void setStudentProfile(StudentProfile studentProfile) {
+        this.studentProfile = studentProfile;
+    }
+
+//    Getter and Setter for School
+
+    public School getSchool() {
+        return school;
+    }
+
+    public void setSchool(School school) {
+        this.school = school;
     }
 }
